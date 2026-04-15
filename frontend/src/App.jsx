@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const API = "http://localhost:8001";
+const API = "https://restaurant-predictor.onrender.com";
 
 const INGREDIENT_META = {
   chicken: { shelf_life_days: 2, lead_time_days: 1 },
