@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const API = "https://restaurant-predictor.onrender.com";
 
@@ -28,6 +28,21 @@ export default function App() {
   const [feedbackMsg, setFeedbackMsg] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadingDay, setLoadingDay] = useState(false);
+
+  const resultRef = useRef(null);
+  const dayResultRef = useRef(null);
+
+  useEffect(() => {
+    if (result && resultRef.current) {
+      resultRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [result]);
+
+  useEffect(() => {
+    if (dayResult && dayResultRef.current) {
+      dayResultRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [dayResult]);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -193,7 +208,7 @@ export default function App() {
 
       {/* ── Single-hour result ── */}
       {result && (
-        <div style={{ marginTop: 24, borderTop: "1px solid #ccc", paddingTop: 16 }}>
+        <div ref={resultRef} style={{ marginTop: 24, borderTop: "1px solid #ccc", paddingTop: 16 }}>
           <h3>Prediction – {formatHour(form.hour)}</h3>
           <p><strong>Customers:</strong> {result.customers}</p>
 
@@ -249,7 +264,7 @@ export default function App() {
 
       {/* ── Full-day result ── */}
       {dayResult && (
-        <div style={{ marginTop: 24, borderTop: "1px solid #ccc", paddingTop: 16 }}>
+        <div ref={dayResultRef} style={{ marginTop: 24, borderTop: "1px solid #ccc", paddingTop: 16 }}>
           <h3>Full Day Forecast</h3>
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
