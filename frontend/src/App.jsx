@@ -3,17 +3,35 @@ import { useState } from "react";
 const API = "http://localhost:8001";
 
 export default function App() {
+
+  /**
+   * States for the form
+   * States for the result
+   * States for the feedback
+   * States for the loading
+   * Statue for the actual result
+   */
   const [form, setForm] = useState({ hour: 12, is_weekend: 0, is_rain: 0 });
   const [result, setResult] = useState(null);
   const [actualCustomers, setActualCustomers] = useState("");
   const [feedbackMsg, setFeedbackMsg] = useState("");
   const [loading, setLoading] = useState(false);
 
+  /**
+   * Function to handle change event in input fields
+   * @param {*} e
+   * @returns {void}
+   */
   function handleChange(e) {
     const { name, value } = e.target;
     setForm((f) => ({ ...f, [name]: Number(value) }));
   }
 
+  /**
+   * Call predict api
+   * @input {null}
+   * @returns {void}
+   */
   async function predict() {
     setLoading(true);
     setFeedbackMsg("");
@@ -29,6 +47,11 @@ export default function App() {
     }
   }
 
+  /**
+   * Call feedback api
+   * @input {null}
+   * @returns {void}
+   */
   async function sendFeedback() {
     if (!actualCustomers) return;
     const res = await fetch(`${API}/feedback`, {
